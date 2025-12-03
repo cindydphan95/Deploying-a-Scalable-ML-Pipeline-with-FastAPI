@@ -61,7 +61,8 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    # TODO: implement the function
+    preds = model.predict(X)
+    return preds
     pass
 
 def save_model(model, path):
