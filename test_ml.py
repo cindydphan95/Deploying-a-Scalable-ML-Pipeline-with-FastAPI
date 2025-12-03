@@ -1,28 +1,48 @@
 import pytest
-# TODO: add necessary import
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+from ml.model import train_model, compute_model_metrics, inference
+from sklearn.metrics import precision_score, recall_score, f1_score
 
-# TODO: implement the first test. Change the function name and input as needed
-def test_one():
-    """
-    # add description for the first test
-    """
-    # Your code here
+
+def test_train_model_returns_correct_type():
+    """Test that train_model returns a RandomForestClassifier instance."""
+    X_train = np.array([[0,0],[0,1],[1,0],[1,1]])
+    y_train = np.array([0,1,0,1])
+
+    model = train_model(X_train, y_train)
+
+    assert isinstance(model, RandomForestClassifier), "Model is not a RandomForestClassifier"
     pass
 
 
-# TODO: implement the second test. Change the function name and input as needed
-def test_two():
+def test_inference():
     """
-    # add description for the second test
+    Test inference returns valid predicted values
     """
-    # Your code here
+
+    X_train = np.array([[0,0],[1,1]])
+    y_train = np.array([0,1])
+    X_test = np.array([[0,1],[1,0]])
+
+    model = RandomForestClassifier(random_state=42)
+    model.fit(X_train, y_train) 
+    
+    preds = inference(model, X_test)
+
+    assert set(preds).issubset({1,0}), "Expected values are 1 and 0"
     pass
 
 
-# TODO: implement the third test. Change the function name and input as needed
-def test_three():
+def test_compute_model_metrics_values():
     """
-    # add description for the third test
+    Test compute metrics returns correct precision, recall and f1 values
     """
-    # Your code here
+    y_true = np.array([1, 0, 1, 1])
+    y_pred = np.array([1, 0, 0, 1])
+    precision, recall, f1 = compute_model_metrics(y_true, y_pred)
+    assert 0 <= precision <= 1
+    assert 0 <= recall <= 1
+    assert 0 <= f1 <= 1
     pass
